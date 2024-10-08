@@ -6,7 +6,8 @@ import (
 )
 
 type BaseController[T any] interface {
-	BuildCreateRoute(server *fiber.App, path string, handler GenericHandler[T], service GenericService[T]) error
+	BuildCreateRoute(server *fiber.App, path string, handler GenericHandler[T], service GenericService[T], tableName string) error
+	BuildGetRoute(server *fiber.App, path string, handler GenericHandler[T], service GenericService[T], tableName string) error
 }
 
 type GenericController[T any] struct {
@@ -21,11 +22,23 @@ func (c *GenericController[T]) BuildAllRoutes(server *fiber.App, path string, ha
 	if err != nil {
 		panic(err)
 	}
+
+	err = c.BuildGetRoute(server, fmt.Sprintf("/%s/", path), handler, service, tableName)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func (c *GenericController[T]) BuildCreateRoute(server *fiber.App, path string, handler GenericHandler[T], service GenericService[T], tableName string) error {
 	server.Post(path, func(ctx *fiber.Ctx) error {
 		return handler.BuildCreatehandler(ctx, service, tableName)
+	})
+	return nil
+}
+
+func (c *GenericController[T]) BuildGetRoute(server *fiber.App, path string, handler GenericHandler[T], service GenericService[T], tableName string) error {
+	server.Get(path, func(ctx *fiber.Ctx) error {
+		return handler.BuildGethandler(ctx, service, tableName)
 	})
 	return nil
 }

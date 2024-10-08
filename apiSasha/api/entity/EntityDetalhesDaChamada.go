@@ -1,5 +1,13 @@
 package entity
 
+/*
+{
+	"det_id_chamada": 9,
+	"det_id_aluno" : 1,
+	"det_presente": true
+}
+*/
+
 type DetalheDaChamada struct {
 	ID           int     `gorm:"column:det_id;primaryKey;autoIncrement"`
 	DetIDChamada int     `json:"det_id_chamada" gorm:"column:det_id_chamada"`

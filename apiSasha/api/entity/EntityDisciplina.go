@@ -1,5 +1,11 @@
 package entity
 
+/*
+{
+	"dis_nome": "GGTI"
+}
+*/
+
 type Disciplina struct {
 	ID   int    `gorm:"column:dis_id;primaryKey;autoIncrement"`
 	Nome string `json:"dis_nome" gorm:"column:dis_nome;size:50;not null"`

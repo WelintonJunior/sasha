@@ -5,7 +5,8 @@ import (
 )
 
 type BaseHandler[T any] interface {
-	BuildCreatehandler(ctx *fiber.Ctx, service GenericService[T]) error
+	BuildCreatehandler(ctx *fiber.Ctx, service GenericService[T], tableName string) error
+	BuildGethandler(ctx *fiber.Ctx, service GenericService[T], tableName string) error
 }
 
 type GenericHandler[T any] struct {
@@ -29,4 +30,16 @@ func (h *GenericHandler[T]) BuildCreatehandler(ctx *fiber.Ctx, service GenericSe
 	}
 
 	return ctx.Status(fiber.StatusCreated).JSON(fiber.Map{"msg": "Sucesso!"})
+}
+
+func (h *GenericHandler[T]) BuildGethandler(ctx *fiber.Ctx, service GenericService[T], tableName string) error {
+
+	result, err := service.BuildGetService(tableName)
+
+	if err != nil {
+		ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"msg": err.Error()})
+		return err
+	}
+
+	return ctx.Status(fiber.StatusCreated).JSON(result)
 }
