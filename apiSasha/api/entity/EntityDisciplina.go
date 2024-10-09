@@ -7,10 +7,14 @@ package entity
 */
 
 type Disciplina struct {
-	ID   int    `gorm:"column:dis_id;primaryKey;autoIncrement"`
+	ID   int    `json:"dis_id" gorm:"column:dis_id;primaryKey;autoIncrement"`
 	Nome string `json:"dis_nome" gorm:"column:dis_nome;size:50;not null"`
 }
 
-func (c *Disciplina) TableName() string {
+func (Disciplina) TableName() string {
 	return "dis_disciplina"
+}
+
+func (Disciplina) GetPrimaryKey() string {
+	return "dis_id"
 }

@@ -1,14 +1,14 @@
 package initApi
 
 import (
-	"example.com/apiSasha/api/crudTabelaChamada"
+	"example.com/apiSasha/api/crudTabelaChamada/controllers"
 	"github.com/gofiber/fiber/v2"
 )
 
 func InitApi(server *fiber.App) {
-	crudTabelaChamada.StartCrudChamada(server)
-	crudTabelaChamada.StartCrudDetalheDaChamada(server)
-	crudTabelaChamada.StartCrudDisciplina(server)
-	crudTabelaChamada.StartCrudProfessor(server)
-	crudTabelaChamada.StartCrudAluno(server)
+	controllers.StartCrudChamada(server)
+	controllers.StartCrudDetalheDaChamada(server)
+	controllers.StartCrudDisciplina(server)
+	controllers.StartCrudProfessor(server)
+	controllers.StartCrudAluno(server)
 }
