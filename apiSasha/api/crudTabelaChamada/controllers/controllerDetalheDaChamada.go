@@ -8,6 +8,16 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+type DetChamadaController struct {
+	commons.GenericController[entity.DetalheDaChamada]
+}
+
+func NewDetChamadaController(genericController commons.GenericController[entity.DetalheDaChamada]) *DetChamadaController {
+	return &DetChamadaController{
+		genericController,
+	}
+}
+
 func StartCrudDetalheDaChamada(server *fiber.App) {
 	var detChamada entity.DetalheDaChamada
 	baseHandler := commons.NewGenericHandler[entity.DetalheDaChamada]()
@@ -17,6 +27,7 @@ func StartCrudDetalheDaChamada(server *fiber.App) {
 	detChamadaService := services.NewDetChamadaService(*baseService)
 
 	baseController := commons.NewGenericController[entity.DetalheDaChamada]()
+	detChamadaController := NewDetChamadaController(*baseController)
 
-	baseController.BuildAllRoutes(server, "detChamada", detChamadaHandler, detChamadaService, detChamada.TableName(), detChamada.GetPrimaryKey())
+	detChamadaController.BuildAllRoutes(server, "detChamada", detChamadaHandler, detChamadaService, detChamada.TableName(), detChamada.GetPrimaryKey())
 }

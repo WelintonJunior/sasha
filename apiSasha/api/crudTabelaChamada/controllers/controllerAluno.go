@@ -8,6 +8,16 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+type AlunoController struct {
+	commons.GenericController[entity.Aluno]
+}
+
+func NewAlunoController(genericController commons.GenericController[entity.Aluno]) *AlunoController {
+	return &AlunoController{
+		genericController,
+	}
+}
+
 func StartCrudAluno(server *fiber.App) {
 	var aluno entity.Aluno
 	baseHandler := commons.NewGenericHandler[entity.Aluno]()
@@ -17,5 +27,7 @@ func StartCrudAluno(server *fiber.App) {
 	alunoService := services.NewAlunoService(*baseService)
 
 	baseController := commons.NewGenericController[entity.Aluno]()
-	baseController.BuildAllRoutes(server, "aluno", alunoHandler, alunoService, aluno.TableName(), aluno.GetPrimaryKey())
+	alunoController := NewAlunoController(*baseController)
+
+	alunoController.BuildAllRoutes(server, "aluno", alunoHandler, alunoService, aluno.TableName(), aluno.GetPrimaryKey())
 }

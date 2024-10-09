@@ -8,6 +8,16 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+type ChamadaController struct {
+	commons.GenericController[entity.Chamada]
+}
+
+func NewChamadaController(genericController commons.GenericController[entity.Chamada]) *ChamadaController {
+	return &ChamadaController{
+		genericController,
+	}
+}
+
 func StartCrudChamada(server *fiber.App) {
 	var chamada entity.Chamada
 	baseHandler := commons.NewGenericHandler[entity.Chamada]()
@@ -17,6 +27,7 @@ func StartCrudChamada(server *fiber.App) {
 	chamadaService := services.NewChamadaService(*baseService)
 
 	baseController := commons.NewGenericController[entity.Chamada]()
+	chamadaController := NewChamadaController(*baseController)
 
-	baseController.BuildAllRoutes(server, "chamada", chamadaHandler, chamadaService, chamada.TableName(), chamada.GetPrimaryKey())
+	chamadaController.BuildAllRoutes(server, "chamada", chamadaHandler, chamadaService, chamada.TableName(), chamada.GetPrimaryKey())
 }

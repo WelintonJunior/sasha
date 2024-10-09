@@ -8,6 +8,16 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+type ProfessorController struct {
+	commons.GenericController[entity.Professor]
+}
+
+func NewProfessorController(genericController commons.GenericController[entity.Professor]) *ProfessorController {
+	return &ProfessorController{
+		genericController,
+	}
+}
+
 func StartCrudProfessor(server *fiber.App) {
 	var professor entity.Professor
 	baseHandler := commons.NewGenericHandler[entity.Professor]()
@@ -17,6 +27,7 @@ func StartCrudProfessor(server *fiber.App) {
 	professorService := services.NewProfessorService(*baseService)
 
 	baseController := commons.NewGenericController[entity.Professor]()
+	professorController := NewProfessorController(*baseController)
 
-	baseController.BuildAllRoutes(server, "professor", professorHandler, professorService, professor.TableName(), professor.GetPrimaryKey())
+	professorController.BuildAllRoutes(server, "professor", professorHandler, professorService, professor.TableName(), professor.GetPrimaryKey())
 }
