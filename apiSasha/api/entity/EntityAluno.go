@@ -7,7 +7,7 @@ package entity
 */
 
 type Aluno struct {
-	ID   int    `json:"alu_id" gorm:"column:alu_id;primaryKey;autoIncrement"`
+	RA   string `json:"alu_ra" gorm:"column:alu_ra;primaryKey;autoIncrement"`
 	Nome string `json:"alu_aluno" gorm:"column:alu_nome;size:150;not null"`
 	//Imagem []byte `gorm:"column:alu_imagem;type:longblob"`
 }
