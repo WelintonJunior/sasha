@@ -9,6 +9,5 @@ func InitApi(server *fiber.App) {
 	controllers.StartCrudChamada(server)
 	controllers.StartCrudDetalheDaChamada(server)
 	controllers.StartCrudDisciplina(server)
-	controllers.StartCrudProfessor(server)
-	controllers.StartCrudAluno(server)
+	controllers.StartCrudUser(server)
 }
