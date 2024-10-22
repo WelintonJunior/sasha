@@ -10,5 +10,8 @@ func main() {
 	server := fiber.New()
 	database.InitDB()
 	initApi.InitApi(server)
-	server.Listen(":3000")
+	err := server.Listen(":3000")
+	if err != nil {
+		panic(err)
+	}
 }

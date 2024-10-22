@@ -18,30 +18,6 @@ USE `sacha`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `alu_alunos`
---
-
-DROP TABLE IF EXISTS `alu_alunos`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `alu_alunos` (
-  `alu_nome` varchar(150) NOT NULL,
-  `alu_imagem` longblob,
-  `alu_ra` varchar(8) NOT NULL,
-  PRIMARY KEY (`alu_ra`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `alu_alunos`
---
-
-LOCK TABLES `alu_alunos` WRITE;
-/*!40000 ALTER TABLE `alu_alunos` DISABLE KEYS */;
-/*!40000 ALTER TABLE `alu_alunos` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `cha_chamada`
 --
 
@@ -51,12 +27,12 @@ DROP TABLE IF EXISTS `cha_chamada`;
 CREATE TABLE `cha_chamada` (
   `cha_id` int NOT NULL AUTO_INCREMENT,
   `cha_dis_disciplina` int NOT NULL,
-  `cha_id_professor` int DEFAULT NULL,
+  `cha_id_professor` varchar(8) NOT NULL,
   PRIMARY KEY (`cha_id`),
   KEY `cha_dis_disciplina` (`cha_dis_disciplina`),
   KEY `cha_id_professor` (`cha_id_professor`),
   CONSTRAINT `cha_chamada_ibfk_1` FOREIGN KEY (`cha_dis_disciplina`) REFERENCES `dis_disciplina` (`dis_id`),
-  CONSTRAINT `cha_chamada_ibfk_2` FOREIGN KEY (`cha_id_professor`) REFERENCES `pro_professores` (`pro_id`)
+  CONSTRAINT `cha_chamada_ibfk_2` FOREIGN KEY (`cha_id_professor`) REFERENCES `usu_users` (`usu_ra`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -66,7 +42,7 @@ CREATE TABLE `cha_chamada` (
 
 LOCK TABLES `cha_chamada` WRITE;
 /*!40000 ALTER TABLE `cha_chamada` DISABLE KEYS */;
-INSERT INTO `cha_chamada` VALUES (9,1,1),(12,1,1);
+INSERT INTO `cha_chamada` VALUES (9,1,''),(12,1,'');
 /*!40000 ALTER TABLE `cha_chamada` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -86,7 +62,7 @@ CREATE TABLE `det_detalhesdachamada` (
   KEY `det_id_chamada` (`det_id_chamada`),
   KEY `det_ra_aluno` (`det_ra_aluno`),
   CONSTRAINT `det_detalhesdachamada_ibfk_1` FOREIGN KEY (`det_id_chamada`) REFERENCES `cha_chamada` (`cha_id`),
-  CONSTRAINT `det_detalhesdachamada_ibfk_2` FOREIGN KEY (`det_ra_aluno`) REFERENCES `alu_ra` (`alu_alunos`)
+  CONSTRAINT `det_detalhesdachamada_ibfk_2` FOREIGN KEY (`det_ra_aluno`) REFERENCES `usu_users` (`usu_ra`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -125,27 +101,29 @@ INSERT INTO `dis_disciplina` VALUES (1,'GGTI');
 UNLOCK TABLES;
 
 --
--- Table structure for table `pro_professores`
+-- Table structure for table `usu_users`
 --
 
-DROP TABLE IF EXISTS `pro_professores`;
+DROP TABLE IF EXISTS `usu_users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `pro_professores` (
-  `pro_id` int NOT NULL AUTO_INCREMENT,
-  `pro_nome` varchar(150) NOT NULL,
-  PRIMARY KEY (`pro_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `usu_users` (
+  `password` varchar(255) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `type` char(1) NOT NULL,
+  `usu_ra` varchar(8) NOT NULL,
+  PRIMARY KEY (`usu_ra`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `pro_professores`
+-- Dumping data for table `usu_users`
 --
 
-LOCK TABLES `pro_professores` WRITE;
-/*!40000 ALTER TABLE `pro_professores` DISABLE KEYS */;
-INSERT INTO `pro_professores` VALUES (1,'Jonhson');
-/*!40000 ALTER TABLE `pro_professores` ENABLE KEYS */;
+LOCK TABLES `usu_users` WRITE;
+/*!40000 ALTER TABLE `usu_users` DISABLE KEYS */;
+INSERT INTO `usu_users` VALUES ('123123','Welinton','1','');
+/*!40000 ALTER TABLE `usu_users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -157,4 +135,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-10-14 19:25:51
+-- Dump completed on 2024-10-22 19:41:30
