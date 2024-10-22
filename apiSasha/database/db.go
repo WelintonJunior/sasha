@@ -13,7 +13,7 @@ var DB *gorm.DB
 func InitDB() {
 	var err error
 
-	err = godotenv.Load("../.env")
+	err = godotenv.Load("./.env")
 
 	if err != nil {
 		fmt.Println("Error loading .env file")
@@ -30,8 +30,7 @@ func InitDB() {
 	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
-		fmt.Println("Error connecting to database")
-		return
+		panic("Error connecting to database")
 	}
 
 	fmt.Println("Connected to database")

@@ -13,7 +13,7 @@ type DetalheDaChamada struct {
 	DetIDChamada int     `json:"det_id_chamada" gorm:"column:det_id_chamada"`
 	Chamada      Chamada `gorm:"foreignKey:DetIDChamada;references:ID"`
 	DetRAAluno   int     `json:"det_ra_aluno" gorm:"column:det_ra_aluno"`
-	Aluno        Aluno   `gorm:"foreignKey:DetIDAluno;references:ID"`
+	Aluno        User    `gorm:"foreignKey:DetIDAluno;references:ID"`
 	Presente     bool    `json:"det_presente" gorm:"column:det_presente"`
 }
 
