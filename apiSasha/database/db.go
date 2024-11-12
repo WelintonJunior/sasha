@@ -2,10 +2,11 @@ package database
 
 import (
 	"fmt"
+	"os"
+
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"os"
 )
 
 var DB *gorm.DB
@@ -13,7 +14,7 @@ var DB *gorm.DB
 func InitDB() {
 	var err error
 
-	err = godotenv.Load("./.env")
+	err = godotenv.Load("../../.env")
 
 	if err != nil {
 		fmt.Println("Error loading .env file")

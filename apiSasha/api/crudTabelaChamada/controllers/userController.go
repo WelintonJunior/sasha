@@ -29,5 +29,9 @@ func StartCrudUser(server *fiber.App) {
 	baseController := commons.NewGenericController[entity.User]()
 	userController := NewUserController(*baseController)
 
+	server.Get("user/:id", func(ctx *fiber.Ctx) error {
+		return userHandler.GetUserById(ctx, *userService)
+	})
+
 	userController.BuildAllRoutes(server, "user", userHandler, userService, user.TableName(), user.GetPrimaryKey())
 }
