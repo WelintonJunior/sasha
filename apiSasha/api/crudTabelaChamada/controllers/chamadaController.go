@@ -5,6 +5,7 @@ import (
 	"example.com/apiSasha/api/crudTabelaChamada/handlers"
 	"example.com/apiSasha/api/crudTabelaChamada/services"
 	"example.com/apiSasha/api/entity"
+	"example.com/apiSasha/api/shared"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -38,7 +39,12 @@ func StartCrudChamada(server *fiber.App) {
 	})
 
 	server.Put("updatePresencaAluno/:id", func(ctx *fiber.Ctx) error {
-		return chamadaHandler.UpdatePresencaAluno(ctx, *chamadaService)
+		err := chamadaHandler.UpdatePresencaAluno(ctx, *chamadaService)
+		if err == nil {
+			alunoID := ctx.Params("id")
+			shared.Broadcast <- "Aluno " + alunoID + " marcou presença"
+		}
+		return err
 	})
 
 	server.Put("updateTokenInChamada", func(ctx *fiber.Ctx) error {
