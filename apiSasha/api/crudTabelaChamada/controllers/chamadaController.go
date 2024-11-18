@@ -21,6 +21,7 @@ func NewChamadaController(genericController commons.GenericController[entity.Cha
 
 func StartCrudChamada(server *fiber.App) {
 	var chamada entity.Chamada
+
 	baseHandler := commons.NewGenericHandler[entity.Chamada]()
 	chamadaHandler := handlers.NewChamadaHandler(*baseHandler)
 
@@ -29,6 +30,10 @@ func StartCrudChamada(server *fiber.App) {
 
 	baseController := commons.NewGenericController[entity.Chamada]()
 	chamadaController := NewChamadaController(*baseController)
+
+	server.Get("getChamadaByID/:id", func(ctx *fiber.Ctx) error {
+		return chamadaHandler.GetChamadaByID(ctx, *chamadaService)
+	})
 
 	server.Get("getAllDetChamadaFromChamadaId/:id", func(ctx *fiber.Ctx) error {
 		return chamadaHandler.GetAllDetChamadaFromChamadaId(ctx, *chamadaService)
@@ -49,6 +54,14 @@ func StartCrudChamada(server *fiber.App) {
 
 	server.Put("updateTokenInChamada", func(ctx *fiber.Ctx) error {
 		return chamadaHandler.UpdateTokenInChamada(ctx, *chamadaService)
+	})
+
+	server.Put("updateChamadaTrue/:id", func(ctx *fiber.Ctx) error {
+		return chamadaHandler.UpdateChamadaTrue(ctx, *chamadaService)
+	})
+
+	server.Put("updateChamadaFalse/:id", func(ctx *fiber.Ctx) error {
+		return chamadaHandler.UpdateChamadaFalse(ctx, *chamadaService)
 	})
 
 	chamadaController.BuildAllRoutes(server, "chamada", chamadaHandler, chamadaService, chamada.TableName(), chamada.GetPrimaryKey())
