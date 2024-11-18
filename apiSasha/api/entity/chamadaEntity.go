@@ -13,6 +13,7 @@ type Chamada struct {
 	Disciplina       Disciplina `gorm:"foreignKey:ChaDisDisciplina;references:ID"`
 	ChaIDProfessor   string     `json:"cha_id_professor" gorm:"column:cha_id_professor"`
 	Professor        User       `gorm:"foreignKey:ChaIDProfessor;references:ID"`
+	ChaInAndamento   bool       `json:"cha_inAndamento" gorm:"column:cha_inAndamento"`
 }
 
 type ListChamadaResponse struct {
